@@ -1,0 +1,41 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <div class="sidenav-header">
+      <div class="logo">🌴 Vacation Planner</div>
+      <div class="logo-sub">Kubota · NL</div>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/calendar" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>calendar_month</mat-icon>
+        <span matListItemTitle>Request Vacation</span>
+      </a>
+      <a mat-list-item routerLink="/requests" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>list_alt</mat-icon>
+        <span matListItemTitle>Requests</span>
+      </a>
+      @if (isAdmin()) {
+        <a mat-list-item routerLink="/admin" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span matListItemTitle>Admin</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="top-toolbar">
+      <span class="toolbar-spacer"></span>
+      <app-user-selector />
+    </mat-toolbar>
+    <main class="main-content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

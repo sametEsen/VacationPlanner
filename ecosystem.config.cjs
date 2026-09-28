@@ -1,0 +1,51 @@
+module.exports = {
+  apps: [
+    {
+      name: 'vacation-api',
+      cwd: './server',
+      script: 'dist/app.js',
+      exec_mode: 'fork',
+      instances: 1,
+      autorestart: true,
+      max_restarts: 10,
+      restart_delay: 3000,
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000,
+      },
+      env_production: {
+        NODE_ENV: 'production',
+        PORT: 3000,
+      },
+      out_file: './logs/vacation-api-out.log',
+      error_file: './logs/vacation-api-error.log',
+      merge_logs: true,
+      time: true,
+    },
+    {
+      name: 'vacation-ui',
+      cwd: './client',
+      script: 'dist/client/server/server.mjs',
+      interpreter: 'node',
+      exec_mode: 'fork',
+      instances: 1,
+      autorestart: true,
+      max_restarts: 10,
+      restart_delay: 3000,
+      env: {
+        NODE_ENV: 'production',
+        PORT: 1919,
+        API_BASE_URL: 'http://127.0.0.1:3000/api',
+      },
+      env_production: {
+        NODE_ENV: 'production',
+        PORT: 1919,
+        API_BASE_URL: 'http://127.0.0.1:3000/api',
+      },
+      out_file: './logs/vacation-ui-out.log',
+      error_file: './logs/vacation-ui-error.log',
+      merge_logs: true,
+      time: true,
+    },
+  ],
+};

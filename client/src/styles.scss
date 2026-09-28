@@ -1,0 +1,157 @@
+@use '@angular/material' as mat;
+
+// ─── Dark Material Theme ───────────────────────────────────────────────────
+html {
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$violet-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+// ─── AI-Inspired Design Tokens ────────────────────────────────────────────
+:root {
+  --bg:            #07090f;
+  --bg-surface:    rgba(13, 18, 32, 0.85);
+  --bg-elevated:   rgba(20, 28, 50, 0.7);
+  --border:        rgba(120, 160, 255, 0.1);
+  --border-glow:   rgba(139, 92, 246, 0.35);
+
+  --violet:  #8B5CF6;
+  --indigo:  #6366F1;
+  --blue:    #3B82F6;
+  --cyan:    #06B6D4;
+  --emerald: #10B981;
+  --pink:    #EC4899;
+  --amber:   #F59E0B;
+  --red:     #EF4444;
+
+  --grad:         linear-gradient(135deg, #8B5CF6 0%, #6366F1 40%, #3B82F6 100%);
+  --grad-subtle:  linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(59,130,246,0.15) 100%);
+  --grad-text:    linear-gradient(135deg, #A78BFA, #60A5FA, #34D399);
+
+  --text:         #E2E8F0;
+  --text-muted:   rgba(226, 232, 240, 0.55);
+  --text-faint:   rgba(226, 232, 240, 0.3);
+
+  --radius:    14px;
+  --radius-sm:  8px;
+  --glass: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.07);
+}
+
+// ─── Reset & Base ─────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+// ─── Glassmorphism Card ────────────────────────────────────────────────────
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+// ─── Material Overrides ───────────────────────────────────────────────────
+.mat-mdc-card {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
+  color: var(--text) !important;
+}
+
+.mat-mdc-card-title { color: var(--text) !important; }
+.mat-mdc-card-subtitle { color: var(--text-muted) !important; }
+
+.mat-toolbar {
+  background: rgba(7, 9, 15, 0.9) !important;
+  border-bottom: 1px solid var(--border) !important;
+  backdrop-filter: blur(20px);
+}
+
+.mat-mdc-tab-group .mat-mdc-tab-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background: var(--grad) !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+.mat-mdc-outlined-button {
+  border-color: var(--border-glow) !important;
+  color: var(--violet) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--border) !important;
+}
+
+.mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+  border-color: var(--violet) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--indigo) !important;
+  border-width: 2px !important;
+}
+
+.mat-mdc-input-element,
+.mat-mdc-select-value-text { color: var(--text) !important; }
+
+.mat-mdc-floating-label { color: var(--text-muted) !important; }
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+// ─── Scrollbar ─────────────────────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.6); }
+
+// ─── Page Title ────────────────────────────────────────────────────────────
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  font-size: 1.35rem !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  letter-spacing: -0.2px;
+
+  mat-icon {
+    color: var(--violet) !important;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+}
