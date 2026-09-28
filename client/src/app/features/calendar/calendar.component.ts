@@ -242,7 +242,7 @@ export class CalendarComponent implements OnInit {
 
       this.loading.set(true);
       this.loadCalendarData(user.id);
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {

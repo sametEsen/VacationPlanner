@@ -223,7 +223,7 @@ export class RequestsComponent implements OnInit {
         return;
       }
       this.loadRequests();
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {

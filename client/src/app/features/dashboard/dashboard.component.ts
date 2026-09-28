@@ -213,7 +213,7 @@ export class DashboardComponent implements OnInit {
         return;
       }
       this.loadData(user.id);
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {
