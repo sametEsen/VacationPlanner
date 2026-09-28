@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   User,
@@ -27,7 +27,12 @@ export class ApiService {
 
   // --- Users ---
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.base}/users`);
+    return this.http.get<Array<User & { _id?: string }>>(`${this.base}/users`).pipe(
+      map((users) => users.map((user) => ({
+        ...user,
+        id: user.id || user._id || '',
+      }))),
+    );
   }
 
   getUserBalance(userId: string): Observable<UserBalance> {

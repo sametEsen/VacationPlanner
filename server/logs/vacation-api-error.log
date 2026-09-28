@@ -297022,3 +297022,406 @@
 2026-08-28T13:24:34:   address: '::',
 2026-08-28T13:24:34:   port: 3000
 2026-08-28T13:24:34: }
+2026-09-28T13:32:08: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:08:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:08:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:08:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:08:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:08:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:08:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:08:   code: 'EADDRINUSE',
+2026-09-28T13:32:08:   errno: -4091,
+2026-09-28T13:32:08:   syscall: 'listen',
+2026-09-28T13:32:08:   address: '::',
+2026-09-28T13:32:08:   port: 3000
+2026-09-28T13:32:08: }
+2026-09-28T13:32:12: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:12:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:12:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:12:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:12:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:12:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:12:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:12:   code: 'EADDRINUSE',
+2026-09-28T13:32:12:   errno: -4091,
+2026-09-28T13:32:12:   syscall: 'listen',
+2026-09-28T13:32:12:   address: '::',
+2026-09-28T13:32:12:   port: 3000
+2026-09-28T13:32:12: }
+2026-09-28T13:32:16: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:16:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:16:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:16:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:16:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:16:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:16:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:16:   code: 'EADDRINUSE',
+2026-09-28T13:32:16:   errno: -4091,
+2026-09-28T13:32:16:   syscall: 'listen',
+2026-09-28T13:32:16:   address: '::',
+2026-09-28T13:32:16:   port: 3000
+2026-09-28T13:32:16: }
+2026-09-28T13:32:20: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:20:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:20:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:20:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:20:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:20:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:20:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:20:   code: 'EADDRINUSE',
+2026-09-28T13:32:20:   errno: -4091,
+2026-09-28T13:32:20:   syscall: 'listen',
+2026-09-28T13:32:20:   address: '::',
+2026-09-28T13:32:20:   port: 3000
+2026-09-28T13:32:20: }
+2026-09-28T13:32:24: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:24:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:24:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:24:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:24:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:24:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:24:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:24:   code: 'EADDRINUSE',
+2026-09-28T13:32:24:   errno: -4091,
+2026-09-28T13:32:24:   syscall: 'listen',
+2026-09-28T13:32:24:   address: '::',
+2026-09-28T13:32:24:   port: 3000
+2026-09-28T13:32:24: }
+2026-09-28T13:32:28: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:28:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:28:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:28:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:28:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:28:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:28:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:28:   code: 'EADDRINUSE',
+2026-09-28T13:32:28:   errno: -4091,
+2026-09-28T13:32:28:   syscall: 'listen',
+2026-09-28T13:32:28:   address: '::',
+2026-09-28T13:32:28:   port: 3000
+2026-09-28T13:32:28: }
+2026-09-28T13:32:32: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:32:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:32:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:32:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:32:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:32:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:32:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:32:   code: 'EADDRINUSE',
+2026-09-28T13:32:32:   errno: -4091,
+2026-09-28T13:32:32:   syscall: 'listen',
+2026-09-28T13:32:32:   address: '::',
+2026-09-28T13:32:32:   port: 3000
+2026-09-28T13:32:32: }
+2026-09-28T13:32:36: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:36:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:36:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:36:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:36:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:36:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:36:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:36:   code: 'EADDRINUSE',
+2026-09-28T13:32:36:   errno: -4091,
+2026-09-28T13:32:36:   syscall: 'listen',
+2026-09-28T13:32:36:   address: '::',
+2026-09-28T13:32:36:   port: 3000
+2026-09-28T13:32:36: }
+2026-09-28T13:32:40: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:40:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:40:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:40:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:40:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:40:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:40:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:40:   code: 'EADDRINUSE',
+2026-09-28T13:32:40:   errno: -4091,
+2026-09-28T13:32:40:   syscall: 'listen',
+2026-09-28T13:32:40:   address: '::',
+2026-09-28T13:32:40:   port: 3000
+2026-09-28T13:32:40: }
+2026-09-28T13:32:44: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:44:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:44:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:44:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:44:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:44:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:44:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:44:   code: 'EADDRINUSE',
+2026-09-28T13:32:44:   errno: -4091,
+2026-09-28T13:32:44:   syscall: 'listen',
+2026-09-28T13:32:44:   address: '::',
+2026-09-28T13:32:44:   port: 3000
+2026-09-28T13:32:44: }
+2026-09-28T13:32:47: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:47:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:47:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:47:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:47:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:47:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:47:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:47:   code: 'EADDRINUSE',
+2026-09-28T13:32:47:   errno: -4091,
+2026-09-28T13:32:47:   syscall: 'listen',
+2026-09-28T13:32:47:   address: '::',
+2026-09-28T13:32:47:   port: 3000
+2026-09-28T13:32:47: }
+2026-09-28T13:32:51: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:51:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:51:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:51:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:51:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:51:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:51:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:51:   code: 'EADDRINUSE',
+2026-09-28T13:32:51:   errno: -4091,
+2026-09-28T13:32:51:   syscall: 'listen',
+2026-09-28T13:32:51:   address: '::',
+2026-09-28T13:32:51:   port: 3000
+2026-09-28T13:32:51: }
+2026-09-28T13:32:55: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:55:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:55:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:55:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:55:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:55:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:55:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:55:   code: 'EADDRINUSE',
+2026-09-28T13:32:55:   errno: -4091,
+2026-09-28T13:32:55:   syscall: 'listen',
+2026-09-28T13:32:55:   address: '::',
+2026-09-28T13:32:55:   port: 3000
+2026-09-28T13:32:55: }
+2026-09-28T13:32:59: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:32:59:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:32:59:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:32:59:     at Server.listen (node:net:2067:7)
+2026-09-28T13:32:59:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:32:59:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:32:59:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:32:59:   code: 'EADDRINUSE',
+2026-09-28T13:32:59:   errno: -4091,
+2026-09-28T13:32:59:   syscall: 'listen',
+2026-09-28T13:32:59:   address: '::',
+2026-09-28T13:32:59:   port: 3000
+2026-09-28T13:32:59: }
+2026-09-28T13:33:03: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:03:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:03:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:03:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:03:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:03:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:03:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:03:   code: 'EADDRINUSE',
+2026-09-28T13:33:03:   errno: -4091,
+2026-09-28T13:33:03:   syscall: 'listen',
+2026-09-28T13:33:03:   address: '::',
+2026-09-28T13:33:03:   port: 3000
+2026-09-28T13:33:03: }
+2026-09-28T13:33:06: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:06:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:06:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:06:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:06:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:06:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:06:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:06:   code: 'EADDRINUSE',
+2026-09-28T13:33:06:   errno: -4091,
+2026-09-28T13:33:06:   syscall: 'listen',
+2026-09-28T13:33:06:   address: '::',
+2026-09-28T13:33:06:   port: 3000
+2026-09-28T13:33:06: }
+2026-09-28T13:33:10: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:10:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:10:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:10:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:10:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:10:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:10:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:10:   code: 'EADDRINUSE',
+2026-09-28T13:33:10:   errno: -4091,
+2026-09-28T13:33:10:   syscall: 'listen',
+2026-09-28T13:33:10:   address: '::',
+2026-09-28T13:33:10:   port: 3000
+2026-09-28T13:33:10: }
+2026-09-28T13:33:14: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:14:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:14:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:14:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:14:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:14:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:14:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:14:   code: 'EADDRINUSE',
+2026-09-28T13:33:14:   errno: -4091,
+2026-09-28T13:33:14:   syscall: 'listen',
+2026-09-28T13:33:14:   address: '::',
+2026-09-28T13:33:14:   port: 3000
+2026-09-28T13:33:14: }
+2026-09-28T13:33:18: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:18:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:18:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:18:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:18:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:18:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:18:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:18:   code: 'EADDRINUSE',
+2026-09-28T13:33:18:   errno: -4091,
+2026-09-28T13:33:18:   syscall: 'listen',
+2026-09-28T13:33:18:   address: '::',
+2026-09-28T13:33:18:   port: 3000
+2026-09-28T13:33:18: }
+2026-09-28T13:33:21: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:21:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:21:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:21:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:21:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:21:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:21:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:21:   code: 'EADDRINUSE',
+2026-09-28T13:33:21:   errno: -4091,
+2026-09-28T13:33:21:   syscall: 'listen',
+2026-09-28T13:33:21:   address: '::',
+2026-09-28T13:33:21:   port: 3000
+2026-09-28T13:33:21: }
+2026-09-28T13:33:25: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:25:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:25:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:25:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:25:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:25:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:25:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:25:   code: 'EADDRINUSE',
+2026-09-28T13:33:25:   errno: -4091,
+2026-09-28T13:33:25:   syscall: 'listen',
+2026-09-28T13:33:25:   address: '::',
+2026-09-28T13:33:25:   port: 3000
+2026-09-28T13:33:25: }
+2026-09-28T13:33:29: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:29:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:29:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:29:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:29:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:29:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:29:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:29:   code: 'EADDRINUSE',
+2026-09-28T13:33:29:   errno: -4091,
+2026-09-28T13:33:29:   syscall: 'listen',
+2026-09-28T13:33:29:   address: '::',
+2026-09-28T13:33:29:   port: 3000
+2026-09-28T13:33:29: }
+2026-09-28T13:33:33: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:33:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:33:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:33:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:33:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:33:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:33:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:33:   code: 'EADDRINUSE',
+2026-09-28T13:33:33:   errno: -4091,
+2026-09-28T13:33:33:   syscall: 'listen',
+2026-09-28T13:33:33:   address: '::',
+2026-09-28T13:33:33:   port: 3000
+2026-09-28T13:33:33: }
+2026-09-28T13:33:37: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:37:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:37:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:37:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:37:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:37:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:37:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:37:   code: 'EADDRINUSE',
+2026-09-28T13:33:37:   errno: -4091,
+2026-09-28T13:33:37:   syscall: 'listen',
+2026-09-28T13:33:37:   address: '::',
+2026-09-28T13:33:37:   port: 3000
+2026-09-28T13:33:37: }
+2026-09-28T13:33:41: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:41:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:41:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:41:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:41:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:41:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:41:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:41:   code: 'EADDRINUSE',
+2026-09-28T13:33:41:   errno: -4091,
+2026-09-28T13:33:41:   syscall: 'listen',
+2026-09-28T13:33:41:   address: '::',
+2026-09-28T13:33:41:   port: 3000
+2026-09-28T13:33:41: }
+2026-09-28T13:33:45: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:33:45:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:33:45:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:33:45:     at Server.listen (node:net:2067:7)
+2026-09-28T13:33:45:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:33:45:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:33:45:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:33:45:   code: 'EADDRINUSE',
+2026-09-28T13:33:45:   errno: -4091,
+2026-09-28T13:33:45:   syscall: 'listen',
+2026-09-28T13:33:45:   address: '::',
+2026-09-28T13:33:45:   port: 3000
+2026-09-28T13:33:45: }
+2026-09-28T13:47:07: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:47:07:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:47:07:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:47:07:     at Server.listen (node:net:2067:7)
+2026-09-28T13:47:07:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:47:07:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:47:07:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:47:07:   code: 'EADDRINUSE',
+2026-09-28T13:47:07:   errno: -4091,
+2026-09-28T13:47:07:   syscall: 'listen',
+2026-09-28T13:47:07:   address: '::',
+2026-09-28T13:47:07:   port: 3000
+2026-09-28T13:47:07: }
+2026-09-28T13:47:11: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:47:11:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:47:11:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:47:11:     at Server.listen (node:net:2067:7)
+2026-09-28T13:47:11:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:47:11:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:47:11:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:47:11:   code: 'EADDRINUSE',
+2026-09-28T13:47:11:   errno: -4091,
+2026-09-28T13:47:11:   syscall: 'listen',
+2026-09-28T13:47:11:   address: '::',
+2026-09-28T13:47:11:   port: 3000
+2026-09-28T13:47:11: }
+2026-09-28T13:47:17: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:47:17:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:47:17:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:47:17:     at Server.listen (node:net:2067:7)
+2026-09-28T13:47:17:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:47:17:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:47:17:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:47:17:   code: 'EADDRINUSE',
+2026-09-28T13:47:17:   errno: -4091,
+2026-09-28T13:47:17:   syscall: 'listen',
+2026-09-28T13:47:17:   address: '::',
+2026-09-28T13:47:17:   port: 3000
+2026-09-28T13:47:17: }
+2026-09-28T13:47:21: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:47:21:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:47:21:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:47:21:     at Server.listen (node:net:2067:7)
+2026-09-28T13:47:21:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:47:21:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:47:21:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:47:21:   code: 'EADDRINUSE',
+2026-09-28T13:47:21:   errno: -4091,
+2026-09-28T13:47:21:   syscall: 'listen',
+2026-09-28T13:47:21:   address: '::',
+2026-09-28T13:47:21:   port: 3000
+2026-09-28T13:47:21: }
+2026-09-28T13:47:25: Error: listen EADDRINUSE: address already in use :::3000
+2026-09-28T13:47:25:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-09-28T13:47:25:     at listenInCluster (node:net:1965:12)
+2026-09-28T13:47:25:     at Server.listen (node:net:2067:7)
+2026-09-28T13:47:25:     at Function.listen (C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\node_modules\express\lib\application.js:635:24)
+2026-09-28T13:47:25:     at C:\Users\gr_ses\OneDrive - Kverneland Group\Desktop\VacationPlanner\server\dist\app.js:25:9
+2026-09-28T13:47:25:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+2026-09-28T13:47:25:   code: 'EADDRINUSE',
+2026-09-28T13:47:25:   errno: -4091,
+2026-09-28T13:47:25:   syscall: 'listen',
+2026-09-28T13:47:25:   address: '::',
+2026-09-28T13:47:25:   port: 3000
+2026-09-28T13:47:25: }

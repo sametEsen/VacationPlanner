@@ -14,6 +14,9 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   role: { type: String, enum: ['employee', 'manager', 'hr'], default: 'employee' },
   totalHolidayDays: { type: Number, default: 25 },
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 });
 
 export const User = mongoose.model<IUser>('User', userSchema);
