@@ -119,6 +119,13 @@ export interface RequestDialogResult {
     .over-limit strong { color: var(--red); }
     .error { color: var(--red); font-size: 0.83rem; margin-top: 4px; }
     .reason-field { width: 100%; }
+    mat-dialog-actions { flex-wrap: wrap; }
+    @media (max-width: 600px) {
+      h2 { font-size: 1.15rem; line-height: 1.3; }
+      .summary { padding: 12px; }
+      .row { align-items: flex-start; overflow-wrap: anywhere; }
+      .row mat-icon { flex-shrink: 0; }
+    }
   `],
 })
 export class RequestDialogComponent {

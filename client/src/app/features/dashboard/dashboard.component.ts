@@ -89,11 +89,11 @@ import { UserBalance, HolidayRequest } from '../../core/models';
     </div>
   `,
   styles: [`
-    .dashboard { max-width: 960px; }
+    .dashboard { max-width: 960px; min-width: 0; }
 
     .balance-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       margin-bottom: 20px;
     }
@@ -180,7 +180,7 @@ import { UserBalance, HolidayRequest } from '../../core/models';
       align-items: center;
       padding: 10px 0;
     }
-    .request-dates { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--text); }
+    .request-dates { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; font-size: 0.88rem; color: var(--text); }
     .date-icon { font-size: 16px; color: var(--text-faint); }
     .workdays { color: var(--text-faint); font-size: 0.78rem; }
     .empty-state { color: var(--text-muted); padding: 12px 0; font-size: 0.9rem; }
@@ -189,6 +189,14 @@ import { UserBalance, HolidayRequest } from '../../core/models';
     .status-pending  { background: rgba(245,158,11,0.15);  color: var(--amber); }
     .status-approved { background: rgba(16,185,129,0.15);  color: var(--emerald); }
     .status-rejected { background: rgba(239,68,68,0.15);   color: var(--red); }
+    @media (max-width: 700px) {
+      .balance-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr)); gap: 10px; }
+      .balance-card { padding: 16px 10px; }
+      .balance-value { font-size: 2rem; }
+      .progress-card, .requests-section { padding: 16px; }
+      .request-row { align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+      .chip { flex-shrink: 0; }
+    }
   `],
 })
 export class DashboardComponent implements OnInit {

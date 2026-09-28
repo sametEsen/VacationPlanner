@@ -69,7 +69,12 @@ import { HREmailDraft } from '../../core/models';
     .info-icon { font-size: 18px; width: 18px; height: 18px; color: var(--indigo); flex-shrink: 0; margin-top: 1px; }
     .info strong { color: var(--text); }
     .field { width: 100%; margin-bottom: 8px; }
-    mat-dialog-content { min-width: 500px; }
+    mat-dialog-content { min-width: 0; overflow-wrap: anywhere; }
+    mat-dialog-actions { flex-wrap: wrap; }
+    @media (max-width: 600px) {
+      h2 { font-size: 1.15rem; line-height: 1.3; }
+      .info { overflow-wrap: anywhere; }
+    }
     .body-wrapper { position: relative; }
     .copy-btn {
       position: absolute; top: 8px; right: 4px;

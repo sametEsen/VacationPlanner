@@ -25,7 +25,8 @@ import { User } from '../../core/models';
     </mat-form-field>
   `,
   styles: [`
-    .user-select { width: 230px; }
+    :host { display: block; min-width: 0; max-width: min(230px, calc(100vw - 88px)); width: 100%; }
+    .user-select { width: 100%; }
     :host ::ng-deep .mat-mdc-text-field-wrapper { background: rgba(255,255,255,0.05) !important; border-radius: 8px !important; }
     :host ::ng-deep .mat-mdc-select-value-text { color: var(--text) !important; font-size: 0.9rem; }
     :host ::ng-deep .mat-mdc-floating-label { color: rgba(255,255,255,0.5) !important; }

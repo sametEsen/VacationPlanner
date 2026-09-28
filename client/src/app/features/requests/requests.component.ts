@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { EuDatePipe } from '../../shared/eu-date.pipe';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { ApiService } from '../../core/services/api.service';
 import { UserStateService } from '../../core/services/user-state.service';
 import { HolidayRequest, HREmailDraft } from '../../core/models';
@@ -34,6 +35,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
     MatInputModule,
     MatDialogModule,
     MatTooltipModule,
+    MatMenuModule,
     EuDatePipe,
   ],
   template: `
@@ -69,7 +71,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                           <span class="workdays">({{ req.workdaysCount }} workdays)</span>
                         }
                       </div>
-                      <mat-chip [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
+                      <mat-chip class="desktop-status" [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
                     </div>
                     @if (editingId() === req.id) {
                       <mat-form-field appearance="outline" class="reason-field">
@@ -80,7 +82,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                       <p class="reason">{{ req.reason }}</p>
                     }
                     @if (editingId() === req.id) {
-                      <div class="actions">
+                      <div class="actions desktop-actions">
                         <button
                           mat-raised-button
                           color="primary"
@@ -94,7 +96,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                         </button>
                       </div>
                     } @else if (req.status !== 'rejected') {
-                      <div class="actions">
+                      <div class="actions desktop-actions">
                         <button mat-stroked-button (click)="startEdit(req)">
                           <mat-icon>edit</mat-icon> Edit
                         </button>
@@ -103,19 +105,41 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                         </button>
                       </div>
                     } @else {
-                      <div class="actions">
+                      <div class="actions desktop-actions">
                         <button mat-stroked-button color="warn" (click)="deleteRequest(req)">
                           <mat-icon>delete</mat-icon> Delete
                         </button>
                       </div>
                     }
                     @if (req.status === 'approved' && editingId() !== req.id) {
-                      <div class="actions">
+                      <div class="actions desktop-actions">
                         <button mat-stroked-button color="primary" (click)="openHREmail(req)">
                           <mat-icon>email</mat-icon> Notify HR
                         </button>
                       </div>
                     }
+                    <div class="mobile-actions">
+                      <button mat-stroked-button [matMenuTriggerFor]="requestActions" [attr.aria-label]="'Actions for request from ' + (req.startDate | euDate)">
+                        <mat-icon>more_vert</mat-icon> Actions
+                      </button>
+                      <mat-menu #requestActions="matMenu">
+                        @if (editingId() === req.id) {
+                          <button mat-menu-item [disabled]="!editDraft.startDate || !editDraft.endDate" (click)="saveEdit(req)">
+                            <mat-icon>save</mat-icon> Save
+                          </button>
+                          <button mat-menu-item (click)="cancelEdit()"><mat-icon>close</mat-icon> Cancel</button>
+                        } @else {
+                          @if (req.status !== 'rejected') {
+                            <button mat-menu-item (click)="startEdit(req)"><mat-icon>edit</mat-icon> Edit</button>
+                          }
+                          <button mat-menu-item (click)="deleteRequest(req)"><mat-icon>delete</mat-icon> Delete</button>
+                          @if (req.status === 'approved') {
+                            <button mat-menu-item (click)="openHREmail(req)"><mat-icon>email</mat-icon> Notify HR</button>
+                          }
+                        }
+                      </mat-menu>
+                    </div>
+                    <mat-chip class="mobile-status" [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
                   </mat-card-content>
                 </mat-card>
               }
@@ -138,7 +162,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                           <strong>{{ req.user.name }}</strong>
                           <span class="email">{{ req.user.email }}</span>
                         </div>
-                        <mat-chip [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
+                        <mat-chip class="desktop-status" [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
                       </div>
                       <div class="req-dates">
                         <mat-icon>date_range</mat-icon>
@@ -149,7 +173,7 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                         <p class="reason">{{ req.reason }}</p>
                       }
                       @if (req.status === 'pending') {
-                        <div class="actions">
+                        <div class="actions desktop-actions">
                           <button mat-raised-button color="primary" (click)="approveRequest(req)">
                             <mat-icon>check</mat-icon> Approve
                           </button>
@@ -158,6 +182,18 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                           </button>
                         </div>
                       }
+                      @if (req.status === 'pending') {
+                        <div class="mobile-actions">
+                          <button mat-stroked-button [matMenuTriggerFor]="managerActions" [attr.aria-label]="'Actions for ' + req.user.name + ' request'">
+                            <mat-icon>more_vert</mat-icon> Actions
+                          </button>
+                          <mat-menu #managerActions="matMenu">
+                            <button mat-menu-item (click)="approveRequest(req)"><mat-icon>check</mat-icon> Approve</button>
+                            <button mat-menu-item (click)="rejectRequest(req)"><mat-icon>close</mat-icon> Reject</button>
+                          </mat-menu>
+                        </div>
+                      }
+                      <mat-chip class="mobile-status" [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
                     </mat-card-content>
                   </mat-card>
                 }
@@ -183,23 +219,31 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
       &:hover { border-color: rgba(139,92,246,0.3) !important; transform: translateY(-1px); }
     }
 
-    .req-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-    .req-info { display: flex; flex-direction: column; gap: 2px; }
+    .req-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .req-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
     .req-info strong { color: var(--text); font-size: 0.95rem; }
     .email { font-size: 0.78rem; color: var(--text-faint); }
-    .req-dates { display: flex; align-items: center; gap: 6px; font-size: 0.88rem; color: var(--text-muted); }
+    .req-dates { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; font-size: 0.88rem; color: var(--text-muted); }
     .req-dates mat-icon { font-size: 16px; color: var(--text-faint); }
     .date-field { width: 160px; }
     .reason-field { width: 100%; margin-top: 8px; }
     .workdays { color: var(--text-faint); font-size: 0.78rem; }
     .reason { color: var(--text-muted); font-size: 0.82rem; font-style: italic; margin: 6px 0 0; }
-    .actions { display: flex; gap: 8px; margin-top: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .mobile-actions, .mobile-status { display: none; }
     .empty { color: var(--text-muted); padding: 20px 0; font-size: 0.9rem; }
 
     .chip { padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
     .chip-pending  { background: rgba(245,158,11,0.15);  color: var(--amber); }
     .chip-approved { background: rgba(16,185,129,0.15);  color: var(--emerald); }
     .chip-rejected { background: rgba(239,68,68,0.15);   color: var(--red); }
+    @media (max-width: 600px) {
+      .date-field { width: 100%; }
+      .req-card mat-card-content { padding: 16px; }
+      .desktop-actions, .desktop-status { display: none; }
+      .mobile-actions { display: block; margin-top: 12px; }
+      .mobile-status { display: flex; width: fit-content; margin: 12px 0 0 auto; }
+    }
   `],
 })
 export class RequestsComponent implements OnInit {
@@ -328,6 +372,8 @@ export class RequestsComponent implements OnInit {
       next: (draft: HREmailDraft) => {
         const dialogRef = this.dialog.open(HREmailDialogComponent, {
           width: '580px',
+          maxWidth: 'calc(100vw - 24px)',
+          maxHeight: 'calc(100dvh - 24px)',
           data: draft,
         });
         dialogRef.afterClosed().subscribe((confirmed: boolean) => {

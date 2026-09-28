@@ -87,7 +87,7 @@ import { CompanyHoliday, User } from '../../core/models';
           @if (users().length === 0) {
             <p class="empty">No team members found.</p>
           } @else {
-            <table mat-table [dataSource]="users()" class="holidays-table">
+            <div class="table-scroll"><table mat-table [dataSource]="users()" class="holidays-table">
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
                 <td mat-cell *matCellDef="let u">
@@ -162,7 +162,7 @@ import { CompanyHoliday, User } from '../../core/models';
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="userColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: userColumns;" [class.editing-row]="editingId === row.id"></tr>
-            </table>
+            </table></div>
           }
         </mat-card-content>
       </mat-card>
@@ -204,7 +204,7 @@ import { CompanyHoliday, User } from '../../core/models';
           @if (holidays().length === 0) {
             <p class="empty">No company holidays defined for {{ year }}.</p>
           } @else {
-            <table mat-table [dataSource]="holidays()" class="holidays-table">
+            <div class="table-scroll"><table mat-table [dataSource]="holidays()" class="holidays-table">
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let h">{{ h.date | euDate }}</td>
@@ -223,7 +223,7 @@ import { CompanyHoliday, User } from '../../core/models';
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+            </table></div>
           }
         </mat-card-content>
       </mat-card>
@@ -244,6 +244,12 @@ import { CompanyHoliday, User } from '../../core/models';
     .form-row mat-form-field.narrow { flex: 0 1 130px; min-width: 110px; }
 
     .holidays-table { width: 100%; background: transparent !important; }
+    .table-scroll { max-width: 100%; overflow-x: auto; }
+    @media (max-width: 700px) {
+      .form-row mat-form-field, .form-row mat-form-field.narrow { flex: 1 1 100%; min-width: 0; }
+      .holidays-table { min-width: 630px; }
+      .add-card mat-card-content { padding: 16px; }
+    }
 
     :host ::ng-deep .mat-mdc-header-row { background: rgba(255,255,255,0.03) !important; }
     :host ::ng-deep .mat-mdc-header-cell {

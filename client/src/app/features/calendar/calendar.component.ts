@@ -7,6 +7,9 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +33,9 @@ import {
   selector: 'app-calendar',
   imports: [
     CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -56,7 +62,7 @@ import {
         <mat-card class="hint-card">
           <mat-card-content>
             <mat-icon>info</mat-icon>
-            Click and drag on the calendar to select your vacation dates. Weekends and holidays are highlighted.
+            Select dates on the calendar, or use the date fields below on phones. Weekends and holidays are highlighted.
             <strong>Balance: {{ balance()?.remainingDays ?? '—' }} days remaining.</strong>
           </mat-card-content>
         </mat-card>
@@ -66,11 +72,25 @@ import {
             <full-calendar [options]="calendarOptions()" />
           </mat-card-content>
         </mat-card>
+        <div class="mobile-dates">
+          <mat-form-field appearance="outline">
+            <mat-label>Start date</mat-label>
+            <input matInput type="date" [(ngModel)]="mobileStartDate" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>End date</mat-label>
+            <input matInput type="date" [(ngModel)]="mobileEndDate" />
+          </mat-form-field>
+          <button mat-raised-button type="button" (click)="submitMobileRange()" [disabled]="!mobileStartDate || !mobileEndDate || mobileEndDate < mobileStartDate">
+            Continue
+          </button>
+        </div>
       }
     </div>
   `,
   styles: [`
     .calendar-page { max-width: 1050px; }
+    .mobile-dates { display: none; }
 
     /* ── Hint banner ──────────────────────────────────────────── */
     .hint-card {
@@ -198,6 +218,18 @@ import {
     }
     :host ::ng-deep .fc .fc-popover-header { background: rgba(139,92,246,0.2) !important; color: #e2e4f0 !important; }
     :host ::ng-deep .fc .fc-popover-body { background: #242739 !important; }
+    @media (max-width: 600px) {
+      .mobile-dates { display: grid; gap: 8px; margin-top: 16px; }
+      .mobile-dates mat-form-field, .mobile-dates button { width: 100%; }
+      .hint-card mat-card-content { flex-wrap: wrap; }
+      :host ::ng-deep .fc .fc-header-toolbar { flex-wrap: wrap; gap: 8px; justify-content: center; }
+      :host ::ng-deep .fc .fc-header-toolbar .fc-toolbar-chunk { display: flex; align-items: center; }
+      :host ::ng-deep .fc .fc-daygrid-day-frame { min-height: 46px; }
+      :host ::ng-deep .fc .fc-daygrid-day-number { font-size: 0.7rem; }
+      :host ::ng-deep .fc .fc-col-header-cell-cushion { font-size: 0.6rem; padding: 6px 0; }
+      :host ::ng-deep .fc .fc-button { padding: 5px 7px !important; }
+      :host ::ng-deep .fc .fc-event { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    }
   `],
 })
 export class CalendarComponent implements OnInit {
@@ -210,6 +242,8 @@ export class CalendarComponent implements OnInit {
   isBrowser = isPlatformBrowser(this.platformId);
   loading = signal(true);
   balance = signal<UserBalance | null>(null);
+  mobileStartDate = '';
+  mobileEndDate = '';
   private allHolidays: Array<{ date: string; name: string }> = [];
   calendarOptions = signal<CalendarOptions>({
     plugins: [dayGridPlugin, interactionPlugin],
@@ -321,7 +355,7 @@ export class CalendarComponent implements OnInit {
     const user = this.userState.currentUser();
     if (!user) return;
 
-    // FullCalendar end is exclusive — convert to last-day-inclusive
+    // FullCalendar end is exclusive; form dates are inclusive.
     const endInclusive = this.addDays(endStr, -1);
 
     const { count: workdays, excludedHolidays, byYear } = this.estimateWorkdays(startStr, endInclusive);
@@ -343,6 +377,8 @@ export class CalendarComponent implements OnInit {
 
     const dialogRef = this.dialog.open(RequestDialogComponent, {
       width: '460px',
+      maxWidth: 'calc(100vw - 24px)',
+      maxHeight: 'calc(100dvh - 24px)',
       data,
     });
 
@@ -363,6 +399,11 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  submitMobileRange(): void {
+    if (!this.mobileStartDate || !this.mobileEndDate || this.mobileEndDate < this.mobileStartDate) return;
+    this.onDateSelect(this.mobileStartDate, this.addDays(this.mobileEndDate, 1));
+  }
+
   /** Count workdays between two dates, excluding weekends and all loaded holidays. */
   private estimateWorkdays(start: string, end: string): { count: number; excludedHolidays: Array<{ date: string; name: string }>; byYear: Record<number, number> } {
     const s = new Date(start);
@@ -373,32 +414,32 @@ export class CalendarComponent implements OnInit {
     let count = 0;
     const cur = new Date(s);
     while (cur <= e) {
-      const day = cur.getDay();
+      const day = cur.getUTCDay();
       const dateStr = this.toISODate(cur);
       if (day !== 0 && day !== 6) {
         if (holidayMap.has(dateStr)) {
           excludedHolidays.push({ date: dateStr, name: holidayMap.get(dateStr)! });
         } else {
           count++;
-          const year = cur.getFullYear();
+          const year = cur.getUTCFullYear();
           byYear[year] = (byYear[year] ?? 0) + 1;
         }
       }
-      cur.setDate(cur.getDate() + 1);
+      cur.setUTCDate(cur.getUTCDate() + 1);
     }
     return { count, excludedHolidays, byYear };
   }
 
   private toISODate(date: Date): string {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
+    const y = date.getUTCFullYear();
+    const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(date.getUTCDate()).padStart(2, '0');
     return `${y}-${m}-${d}`;
   }
 
   private addDays(dateStr: string, days: number): string {
     const d = new Date(dateStr);
-    d.setDate(d.getDate() + days);
+    d.setUTCDate(d.getUTCDate() + days);
     return d.toISOString().split('T')[0];
   }
 }

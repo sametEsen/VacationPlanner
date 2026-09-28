@@ -155,3 +155,7 @@ html, body {
     flex-shrink: 0;
   }
 }
+
+@media (max-width: 600px) {
+  .page-title { font-size: 1.1rem !important; line-height: 1.35; overflow-wrap: anywhere; margin-bottom: 16px; }
+}

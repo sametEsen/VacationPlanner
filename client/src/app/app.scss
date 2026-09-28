@@ -4,6 +4,8 @@
   background: var(--bg);
 }
 
+mat-sidenav-content { min-width: 0; }
+
 // ─── Sidenav ──────────────────────────────────────────────────────────────
 .sidenav {
   width: 230px;
@@ -73,9 +75,11 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: 8px;
 }
 
 .toolbar-spacer { flex: 1 1 auto; }
+.mobile-brand { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
 
 // ─── Main Content ─────────────────────────────────────────────────────────
 .main-content {
@@ -87,4 +91,13 @@
   background-image:
     radial-gradient(ellipse 60% 40% at 10% 0%, rgba(139,92,246,0.07) 0%, transparent 70%),
     radial-gradient(ellipse 40% 30% at 90% 80%, rgba(59,130,246,0.05) 0%, transparent 70%);
+}
+
+@media (max-width: 899px) {
+  .main-content { padding: 20px 16px; }
+}
+
+@media (max-width: 420px) {
+  .top-toolbar { padding: 0 8px; }
+  .mobile-brand { display: none; }
 }
