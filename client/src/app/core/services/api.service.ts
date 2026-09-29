@@ -111,6 +111,13 @@ export class ApiService {
     return this.http.post<{ user: User; temporaryPassword: string }>(`${this.base}/users`, payload);
   }
 
+  setUserPassword(userId: string, password?: string): Observable<{ email: string; password: string }> {
+    return this.http.post<{ email: string; password: string }>(
+      `${this.base}/users/${userId}/password`,
+      { password: password ?? '' },
+    );
+  }
+
   deleteUser(userId: string): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>(`${this.base}/users/${userId}`);
   }

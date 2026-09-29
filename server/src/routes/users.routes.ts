@@ -131,6 +131,34 @@ router.put('/:id', requireRoles('manager', 'hr'), async (req: Request, res: Resp
   }
 });
 
+// POST /api/users/:id/password — admin sets or regenerates a password, returned once
+router.post('/:id/password', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
+  try {
+    if (req.params.id === req.authUser!.id) {
+      return res.status(400).json({ error: 'Use the change password page for your own account' });
+    }
+
+    const user = await User.findById(req.params.id).select('+passwordHash +authVersion');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const provided = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
+    if (provided && (provided.length < 12 || provided.length > 128)) {
+      return res.status(400).json({ error: 'Password must be between 12 and 128 characters' });
+    }
+
+    const password = provided || createTemporaryPassword();
+    user.passwordHash = await hashPassword(password);
+    user.mustChangePassword = true;
+    // Invalidates any session the user currently holds.
+    user.authVersion = (user.authVersion ?? 0) + 1;
+    await user.save();
+
+    return res.json({ email: user.email, password });
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to update password' });
+  }
+});
+
 
 router.delete('/:id', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {

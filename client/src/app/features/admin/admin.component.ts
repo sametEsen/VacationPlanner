@@ -79,14 +79,14 @@ import { CompanyHoliday, User } from '../../core/models';
         </mat-card-content>
       </mat-card>
 
-      @if (newAccountCredentials(); as credentials) {
+      @if (revealedCredentials(); as credentials) {
         <section class="credential-notice" role="status">
           <div>
             <strong>One-time sign-in details for {{ credentials.email }}</strong>
-            <p>Share this temporary password securely. It will not be shown again.</p>
+            <p>Share this password securely. It will not be shown again.</p>
             <code>{{ credentials.password }}</code>
           </div>
-          <button mat-button type="button" (click)="newAccountCredentials.set(null)">Dismiss</button>
+          <button mat-button type="button" (click)="revealedCredentials.set(null)">Dismiss</button>
         </section>
       }
 
@@ -148,6 +148,23 @@ import { CompanyHoliday, User } from '../../core/models';
                     </mat-form-field>
                   } @else {
                     {{ u.totalHolidayDays }}
+                  }
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="password">
+                <th mat-header-cell *matHeaderCellDef>Password</th>
+                <td mat-cell *matCellDef="let u">
+                  @if (editingId === u.id) {
+                    <div class="password-cell">
+                      <mat-form-field appearance="outline" class="cell-field">
+                        <input matInput type="text" [(ngModel)]="editPassword" placeholder="Leave blank to generate" />
+                      </mat-form-field>
+                      <button mat-icon-button color="primary" (click)="setPassword(u)" matTooltip="Set password">
+                        <mat-icon>key</mat-icon>
+                      </button>
+                    </div>
+                  } @else {
+                    <span class="muted">••••••••</span>
                   }
                 </td>
               </ng-container>
@@ -256,13 +273,14 @@ import { CompanyHoliday, User } from '../../core/models';
     .credential-notice { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 0 16px; padding: 16px; border-left: 3px solid #c2e35b; background: rgba(194, 227, 91, .08); color: var(--text); }
     .credential-notice p { margin: 6px 0; color: var(--text-muted); font-size: .85rem; }
     .credential-notice code { color: #d8f28a; overflow-wrap: anywhere; }
+    .password-cell { display: flex; align-items: center; gap: 4px; }
     @media (max-width: 560px) { .credential-notice { align-items: flex-start; flex-direction: column; } }
 
     .holidays-table { width: 100%; background: transparent !important; }
     .table-scroll { max-width: 100%; overflow-x: auto; }
     @media (max-width: 700px) {
       .form-row mat-form-field, .form-row mat-form-field.narrow { flex: 1 1 100%; min-width: 0; }
-      .holidays-table { min-width: 630px; }
+      .holidays-table { min-width: 760px; }
       .add-card mat-card-content { padding: 16px; }
     }
 
@@ -312,10 +330,10 @@ export class AdminComponent implements OnInit {
   year = new Date().getFullYear();
   holidays = signal<CompanyHoliday[]>([]);
   users = signal<User[]>([]);
-  newAccountCredentials = signal<{ email: string; password: string } | null>(null);
+  revealedCredentials = signal<{ email: string; password: string } | null>(null);
 
   displayedColumns = ['date', 'name', 'actions'];
-  userColumns = ['name', 'email', 'role', 'days', 'actions'];
+  userColumns = ['name', 'email', 'role', 'days', 'password', 'actions'];
 
   newName = '';
   newDate = '';
@@ -323,6 +341,7 @@ export class AdminComponent implements OnInit {
 
   editingId: string | null = null;
   editDraft = { name: '', email: '', role: 'employee', totalHolidayDays: 25 };
+  editPassword = '';
 
   ngOnInit(): void {
     this.loadHolidays();
@@ -331,11 +350,28 @@ export class AdminComponent implements OnInit {
 
   startEdit(u: User): void {
     this.editingId = u.id;
+    this.editPassword = '';
     this.editDraft = { name: u.name, email: u.email, role: u.role, totalHolidayDays: u.totalHolidayDays };
   }
 
   cancelEdit(): void {
     this.editingId = null;
+    this.editPassword = '';
+  }
+
+  setPassword(u: User): void {
+    this.api.setUserPassword(u.id, this.editPassword || undefined).subscribe({
+      next: ({ email, password }) => {
+        this.revealedCredentials.set({ email, password });
+        this.snackBar.open('Password updated. Share it securely — shown only once.', 'OK', { duration: 5000 });
+        this.editingId = null;
+        this.editPassword = '';
+      },
+      error: (err) => {
+        const msg = err?.error?.error ?? 'Failed to update password.';
+        this.snackBar.open(msg, 'Dismiss', { duration: 4000 });
+      },
+    });
   }
 
   saveUser(u: User): void {
@@ -361,7 +397,7 @@ export class AdminComponent implements OnInit {
     if (!this.newUser.name || !this.newUser.email) return;
     this.api.addUser({ ...this.newUser }).subscribe({
       next: ({ user, temporaryPassword }) => {
-        this.newAccountCredentials.set({ email: user.email, password: temporaryPassword });
+        this.revealedCredentials.set({ email: user.email, password: temporaryPassword });
         this.snackBar.open('Colleague added. Share the temporary password securely.', 'OK', { duration: 5000 });
         this.newUser = { name: '', email: '', role: 'employee', totalHolidayDays: 25 };
         this.loadUsers();
