@@ -275,7 +275,7 @@ export class CalendarComponent implements OnInit {
       }
 
       this.loading.set(true);
-      this.loadCalendarData(user.id);
+      this.loadCalendarData();
     });
   }
 
@@ -283,15 +283,15 @@ export class CalendarComponent implements OnInit {
     // Data loading is handled reactively via signal effect in constructor.
   }
 
-  private loadCalendarData(userId: string): void {
+  private loadCalendarData(): void {
     const year = new Date().getFullYear();
     const nextYear = year + 1;
 
     Promise.all([
-      this.api.getUserRequests(userId).toPromise(),
+      this.api.getMyRequests().toPromise(),
       this.api.getPublicHolidays(year).toPromise(),
       this.api.getCompanyHolidays(year).toPromise(),
-      this.api.getUserBalance(userId).toPromise(),
+      this.api.getMyBalance().toPromise(),
       this.api.getPublicHolidays(nextYear).toPromise(),
       this.api.getCompanyHolidays(nextYear).toPromise(),
     ]).then(([requests, pubHols, compHols, bal, pubHolsNext, compHolsNext]) => {
@@ -385,11 +385,11 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: RequestDialogResult) => {
       if (!result?.confirmed) return;
       this.api
-        .submitRequest({ userId: user.id, startDate: startStr, endDate: endInclusive, reason: result.reason })
+        .submitRequest({ startDate: startStr, endDate: endInclusive, reason: result.reason })
         .subscribe({
           next: () => {
             this.snackBar.open('Vacation request submitted! The manager has been notified.', 'OK', { duration: 4000 });
-            this.loadCalendarData(user.id);
+            this.loadCalendarData();
           },
           error: (err) => {
             const msg = err?.error?.error || 'Failed to submit request.';

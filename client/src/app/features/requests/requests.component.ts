@@ -111,13 +111,6 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                         </button>
                       </div>
                     }
-                    @if (req.status === 'approved' && editingId() !== req.id) {
-                      <div class="actions desktop-actions">
-                        <button mat-stroked-button color="primary" (click)="openHREmail(req)">
-                          <mat-icon>email</mat-icon> Notify HR
-                        </button>
-                      </div>
-                    }
                     <div class="mobile-actions">
                       <button mat-stroked-button [matMenuTriggerFor]="requestActions" [attr.aria-label]="'Actions for request from ' + (req.startDate | euDate)">
                         <mat-icon>more_vert</mat-icon> Actions
@@ -133,9 +126,6 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                             <button mat-menu-item (click)="startEdit(req)"><mat-icon>edit</mat-icon> Edit</button>
                           }
                           <button mat-menu-item (click)="deleteRequest(req)"><mat-icon>delete</mat-icon> Delete</button>
-                          @if (req.status === 'approved') {
-                            <button mat-menu-item (click)="openHREmail(req)"><mat-icon>email</mat-icon> Notify HR</button>
-                          }
                         }
                       </mat-menu>
                     </div>
@@ -191,6 +181,23 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                             <button mat-menu-item (click)="approveRequest(req)"><mat-icon>check</mat-icon> Approve</button>
                             <button mat-menu-item (click)="rejectRequest(req)"><mat-icon>close</mat-icon> Reject</button>
                           </mat-menu>
+                        </div>
+                      }
+                      @if (req.status === 'approved') {
+                        <div class="mobile-actions">
+                          <button mat-stroked-button [matMenuTriggerFor]="managerEmailActions">
+                            <mat-icon>more_vert</mat-icon> Actions
+                          </button>
+                          <mat-menu #managerEmailActions="matMenu">
+                            <button mat-menu-item (click)="openHREmail(req)"><mat-icon>email</mat-icon> Notify HR</button>
+                          </mat-menu>
+                        </div>
+                      }
+                      @if (req.status === 'approved') {
+                        <div class="actions desktop-actions">
+                          <button mat-stroked-button color="primary" (click)="openHREmail(req)">
+                            <mat-icon>email</mat-icon> Notify HR
+                          </button>
                         </div>
                       }
                       <mat-chip class="mobile-status" [class]="'chip-' + req.status">{{ req.status | titlecase }}</mat-chip>
@@ -278,7 +285,7 @@ export class RequestsComponent implements OnInit {
     const user = this.userState.currentUser();
     if (!user) return;
 
-    this.api.getUserRequests(user.id).subscribe((r) => this.myRequests.set(r));
+    this.api.getMyRequests().subscribe((r) => this.myRequests.set(r));
 
     if (this.userState.isManager()) {
       this.api.getAllRequests().subscribe((r) => this.allRequests.set(r));
@@ -324,7 +331,6 @@ export class RequestsComponent implements OnInit {
     if (!user) return;
 
     this.api.updateRequest(req.id, {
-      userId: user.id,
       startDate: this.editDraft.startDate,
       endDate: this.editDraft.endDate,
       reason: this.editDraft.reason,
@@ -354,7 +360,7 @@ export class RequestsComponent implements OnInit {
       : false;
     if (!confirmed) return;
 
-    this.api.deleteRequest(req.id, user.id).subscribe({
+    this.api.deleteRequest(req.id).subscribe({
       next: () => {
         this.snackBar.open('Request deleted.', 'OK', { duration: 3000 });
         this.cancelEdit();

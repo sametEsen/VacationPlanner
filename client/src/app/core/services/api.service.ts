@@ -22,7 +22,26 @@ export class ApiService {
     }
 
     const serverBase = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.['API_BASE_URL'];
-    return serverBase || environment.apiUrl;
+    return serverBase || 'http://127.0.0.1:3000/api';
+  }
+
+  login(email: string, password: string): Observable<{ user: User }> {
+    return this.http.post<{ user: User }>(`${this.base}/auth/login`, { email, password });
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<{ user: User }>(`${this.base}/auth/me`).pipe(map((response) => response.user));
+  }
+
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.base}/auth/logout`, {});
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<{ success: boolean; loginRequired: boolean }> {
+    return this.http.post<{ success: boolean; loginRequired: boolean }>(`${this.base}/auth/change-password`, {
+      currentPassword,
+      newPassword,
+    });
   }
 
   // --- Users ---
@@ -35,8 +54,8 @@ export class ApiService {
     );
   }
 
-  getUserBalance(userId: string): Observable<UserBalance> {
-    return this.http.get<UserBalance>(`${this.base}/users/${userId}/balance`);
+  getMyBalance(): Observable<UserBalance> {
+    return this.http.get<UserBalance>(`${this.base}/users/me/balance`);
   }
 
   // --- Holiday Requests ---
@@ -44,12 +63,11 @@ export class ApiService {
     return this.http.get<HolidayRequest[]>(`${this.base}/requests`);
   }
 
-  getUserRequests(userId: string): Observable<HolidayRequest[]> {
-    return this.http.get<HolidayRequest[]>(`${this.base}/requests/user/${userId}`);
+  getMyRequests(): Observable<HolidayRequest[]> {
+    return this.http.get<HolidayRequest[]>(`${this.base}/requests/mine`);
   }
 
   submitRequest(payload: {
-    userId: string;
     startDate: string;
     endDate: string;
     reason?: string;
@@ -58,7 +76,6 @@ export class ApiService {
   }
 
   updateRequest(requestId: string, payload: {
-    userId: string;
     startDate: string;
     endDate: string;
     reason?: string;
@@ -66,8 +83,8 @@ export class ApiService {
     return this.http.patch<HolidayRequest>(`${this.base}/requests/${requestId}`, payload);
   }
 
-  deleteRequest(requestId: string, userId: string): Observable<{ success: boolean }> {
-    return this.http.delete<{ success: boolean }>(`${this.base}/requests/${requestId}`, { body: { userId } });
+  deleteRequest(requestId: string): Observable<{ success: boolean }> {
+    return this.http.delete<{ success: boolean }>(`${this.base}/requests/${requestId}`);
   }
 
   approveRequest(requestId: string): Observable<HolidayRequest> {
@@ -90,8 +107,8 @@ export class ApiService {
     return this.http.put<User>(`${this.base}/users/${userId}`, payload);
   }
 
-  addUser(payload: { name: string; email: string; role: string; totalHolidayDays: number }): Observable<User> {
-    return this.http.post<User>(`${this.base}/users`, payload);
+  addUser(payload: { name: string; email: string; role: string; totalHolidayDays: number }): Observable<{ user: User; temporaryPassword: string }> {
+    return this.http.post<{ user: User; temporaryPassword: string }>(`${this.base}/users`, payload);
   }
 
   deleteUser(userId: string): Observable<{ success: boolean }> {

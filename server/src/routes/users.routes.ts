@@ -2,8 +2,21 @@ import { Router, Request, Response } from 'express';
 import { User } from '../entities/User';
 import { HolidayRequest } from '../entities/HolidayRequest';
 import { countWorkdaysBreakdown } from '../services/workday.service';
+import { requireAuth, requireRoles } from '../middleware/auth.middleware';
+import { createTemporaryPassword, hashPassword } from '../services/password.service';
 
 const router = Router();
+router.use(requireAuth);
+
+function serializeUser(user: InstanceType<typeof User>) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    totalHolidayDays: user.totalHolidayDays,
+  };
+}
 
 type YearlyWorkdayMap = Record<number, number>;
 
@@ -27,20 +40,19 @@ async function getApprovedUsageByYear(userId: string): Promise<YearlyWorkdayMap>
 }
 
 // GET /api/users — list all users
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', requireRoles('manager', 'hr'), async (_req: Request, res: Response) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.json(users.map(serializeUser));
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 });
 
 // GET /api/users/:id/balance — get holiday balance for a user
-router.get('/:id/balance', async (req: Request, res: Response) => {
+router.get('/me/balance', async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    const user = req.authUser!;
 
     const currentYear = new Date().getFullYear();
     const usageByYear = await getApprovedUsageByYear(user.id);
@@ -65,51 +77,69 @@ router.get('/:id/balance', async (req: Request, res: Response) => {
 });
 
 // POST /api/users — create a new user
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const { name, email, role = 'employee', totalHolidayDays = 25 } = req.body;
     if (!name || !email) return res.status(400).json({ error: 'name and email are required' });
+    if (!['employee', 'manager', 'hr'].includes(role)) return res.status(400).json({ error: 'Invalid role' });
 
-    const existing = await User.findOne({ email });
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const existing = await User.findOne({ email: normalizedEmail });
     if (existing) return res.status(409).json({ error: 'A user with this email already exists' });
 
-    const saved = await User.create({ name, email, role, totalHolidayDays });
-    return res.status(201).json(saved);
+    const temporaryPassword = createTemporaryPassword();
+    const saved = await User.create({
+      name,
+      email: normalizedEmail,
+      role,
+      totalHolidayDays,
+      passwordHash: await hashPassword(temporaryPassword),
+      mustChangePassword: true,
+    });
+    return res.status(201).json({ user: serializeUser(saved), temporaryPassword });
   } catch (err) {
     return res.status(500).json({ error: 'Failed to create user' });
   }
 });
 
 // PUT /api/users/:id — update a user
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     const { name, email, role, totalHolidayDays } = req.body;
+    if (role !== undefined && !['employee', 'manager', 'hr'].includes(role)) {
+      return res.status(400).json({ error: 'Invalid role' });
+    }
 
-    if (email && email !== user.email) {
-      const conflict = await User.findOne({ email });
+    const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : email;
+    if (normalizedEmail && normalizedEmail !== user.email) {
+      const conflict = await User.findOne({ email: normalizedEmail });
       if (conflict) return res.status(409).json({ error: 'Another user with this email already exists' });
     }
 
     if (name !== undefined) user.name = name;
-    if (email !== undefined) user.email = email;
+    if (normalizedEmail !== undefined) user.email = normalizedEmail;
     if (role !== undefined) user.role = role;
     if (totalHolidayDays !== undefined) user.totalHolidayDays = Number(totalHolidayDays);
 
     const saved = await user.save();
-    return res.json(saved);
+    return res.json(serializeUser(saved));
   } catch (err) {
     return res.status(500).json({ error: 'Failed to update user' });
   }
 });
 
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
+    if (user.id === req.authUser!.id) return res.status(400).json({ error: 'You cannot delete your own account' });
+    if (user.role === 'manager' && await User.countDocuments({ role: 'manager' }) === 1) {
+      return res.status(409).json({ error: 'Cannot delete the last manager account' });
+    }
 
     const requestCount = await HolidayRequest.countDocuments({ userId: user.id });
     if (requestCount > 0) {

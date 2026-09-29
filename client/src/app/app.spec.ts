@@ -1,14 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 import { App } from './app';
-import { ApiService } from './core/services/api.service';
+import { UserStateService } from './core/services/user-state.service';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([]), { provide: ApiService, useValue: { getUsers: () => of([]) } }],
+      providers: [
+        provideRouter([]),
+        {
+          provide: UserStateService,
+          useValue: {
+            currentUser: signal({ id: 'u1', name: 'Test User', email: 'test@example.com', role: 'manager', totalHolidayDays: 25 }),
+            isAdmin: signal(true),
+            isManager: signal(true),
+            logout: () => of(undefined),
+          },
+        },
+      ],
     }).compileComponents();
   });
 

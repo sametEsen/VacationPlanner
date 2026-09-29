@@ -79,6 +79,17 @@ import { CompanyHoliday, User } from '../../core/models';
         </mat-card-content>
       </mat-card>
 
+      @if (newAccountCredentials(); as credentials) {
+        <section class="credential-notice" role="status">
+          <div>
+            <strong>One-time sign-in details for {{ credentials.email }}</strong>
+            <p>Share this temporary password securely. It will not be shown again.</p>
+            <code>{{ credentials.password }}</code>
+          </div>
+          <button mat-button type="button" (click)="newAccountCredentials.set(null)">Dismiss</button>
+        </section>
+      }
+
       <mat-card style="margin-bottom:24px">
         <mat-card-header>
           <mat-card-title>Team Members</mat-card-title>
@@ -242,6 +253,10 @@ import { CompanyHoliday, User } from '../../core/models';
     .form-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
     .form-row mat-form-field { flex: 1; min-width: 160px; }
     .form-row mat-form-field.narrow { flex: 0 1 130px; min-width: 110px; }
+    .credential-notice { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 0 16px; padding: 16px; border-left: 3px solid #c2e35b; background: rgba(194, 227, 91, .08); color: var(--text); }
+    .credential-notice p { margin: 6px 0; color: var(--text-muted); font-size: .85rem; }
+    .credential-notice code { color: #d8f28a; overflow-wrap: anywhere; }
+    @media (max-width: 560px) { .credential-notice { align-items: flex-start; flex-direction: column; } }
 
     .holidays-table { width: 100%; background: transparent !important; }
     .table-scroll { max-width: 100%; overflow-x: auto; }
@@ -297,6 +312,7 @@ export class AdminComponent implements OnInit {
   year = new Date().getFullYear();
   holidays = signal<CompanyHoliday[]>([]);
   users = signal<User[]>([]);
+  newAccountCredentials = signal<{ email: string; password: string } | null>(null);
 
   displayedColumns = ['date', 'name', 'actions'];
   userColumns = ['name', 'email', 'role', 'days', 'actions'];
@@ -344,8 +360,9 @@ export class AdminComponent implements OnInit {
   addUser(): void {
     if (!this.newUser.name || !this.newUser.email) return;
     this.api.addUser({ ...this.newUser }).subscribe({
-      next: () => {
-        this.snackBar.open('Colleague added.', 'OK', { duration: 3000 });
+      next: ({ user, temporaryPassword }) => {
+        this.newAccountCredentials.set({ email: user.email, password: temporaryPassword });
+        this.snackBar.open('Colleague added. Share the temporary password securely.', 'OK', { duration: 5000 });
         this.newUser = { name: '', email: '', role: 'employee', totalHolidayDays: 25 };
         this.loadUsers();
       },

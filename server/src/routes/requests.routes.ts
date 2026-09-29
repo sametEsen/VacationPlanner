@@ -7,8 +7,10 @@ import {
   buildHREmailDraft,
   sendHRNotification,
 } from '../services/email.service';
+import { requireAuth, requireRoles } from '../middleware/auth.middleware';
 
 const router = Router();
+router.use(requireAuth);
 
 type YearlyWorkdayMap = Record<number, number>;
 
@@ -85,7 +87,7 @@ function serializeRequest(doc: IHolidayRequest) {
 }
 
 // GET /api/requests — all requests (manager view)
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', requireRoles('manager', 'hr'), async (_req: Request, res: Response) => {
   try {
     const requests = await HolidayRequest.find().sort({ createdAt: -1 }).populate('userId');
     res.json(requests.map(serializeRequest));
@@ -94,10 +96,10 @@ router.get('/', async (_req: Request, res: Response) => {
   }
 });
 
-// GET /api/requests/user/:userId — requests for a specific user
-router.get('/user/:userId', async (req: Request, res: Response) => {
+// GET /api/requests/mine — requests for the authenticated user
+router.get('/mine', async (req: Request, res: Response) => {
   try {
-    const requests = await HolidayRequest.find({ userId: req.params.userId })
+    const requests = await HolidayRequest.find({ userId: req.authUser!.id })
       .sort({ createdAt: -1 })
       .populate('userId');
     res.json(requests.map(serializeRequest));
@@ -109,13 +111,13 @@ router.get('/user/:userId', async (req: Request, res: Response) => {
 // POST /api/requests — submit a new vacation request
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { userId, startDate, endDate, reason } = req.body;
+    const { startDate, endDate, reason } = req.body;
 
-    if (!userId || !startDate || !endDate) {
-      return res.status(400).json({ error: 'userId, startDate, and endDate are required' });
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'startDate and endDate are required' });
     }
 
-    const user = await User.findById(userId);
+    const user = req.authUser!;
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     // Check remaining balance
@@ -161,7 +163,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/requests/:id/approve — manager approves
-router.patch('/:id/approve', async (req: Request, res: Response) => {
+router.patch('/:id/approve', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const request = await HolidayRequest.findById(req.params.id);
     if (!request) return res.status(404).json({ error: 'Request not found' });
@@ -191,7 +193,7 @@ router.patch('/:id/approve', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/requests/:id/reject — manager rejects
-router.patch('/:id/reject', async (req: Request, res: Response) => {
+router.patch('/:id/reject', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const request = await HolidayRequest.findById(req.params.id);
     if (!request) return res.status(404).json({ error: 'Request not found' });
@@ -211,15 +213,14 @@ router.patch('/:id/reject', async (req: Request, res: Response) => {
 router.patch('/:id', async (req: Request, res: Response) => {
   try {
     const requestId = req.params.id;
-    const { userId, startDate, endDate, reason } = req.body as {
-      userId?: string;
+    const { startDate, endDate, reason } = req.body as {
       startDate?: string;
       endDate?: string;
       reason?: string;
     };
 
-    if (!userId || !startDate || !endDate) {
-      return res.status(400).json({ error: 'userId, startDate, and endDate are required' });
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'startDate and endDate are required' });
     }
 
     if (new Date(startDate) > new Date(endDate)) {
@@ -229,7 +230,7 @@ router.patch('/:id', async (req: Request, res: Response) => {
     const request = await HolidayRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: 'Request not found' });
 
-    if (request.userId.toString() !== userId) {
+    if (request.userId.toString() !== req.authUser!.id) {
       return res.status(403).json({ error: 'You can only edit your own requests' });
     }
 
@@ -237,8 +238,7 @@ router.patch('/:id', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Rejected requests cannot be edited' });
     }
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    const user = req.authUser!;
 
     const approvedUsageByYear = await getApprovedUsageByYear(user.id, request.id);
     const requestedBreakdown = await countWorkdaysBreakdown(startDate, endDate);
@@ -271,16 +271,11 @@ router.patch('/:id', async (req: Request, res: Response) => {
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
     const requestId = req.params.id;
-    const { userId } = req.body as { userId?: string };
-
-    if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
-    }
 
     const request = await HolidayRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: 'Request not found' });
 
-    if (request.userId.toString() !== userId) {
+    if (request.userId.toString() !== req.authUser!.id) {
       return res.status(403).json({ error: 'You can only delete your own requests' });
     }
 
@@ -292,7 +287,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 });
 
 // GET /api/requests/:id/hr-email — get pre-composed HR email draft
-router.get('/:id/hr-email', async (req: Request, res: Response) => {
+router.get('/:id/hr-email', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const request = await HolidayRequest.findById(req.params.id).populate('userId');
     if (!request) return res.status(404).json({ error: 'Request not found' });
@@ -328,7 +323,7 @@ router.get('/:id/hr-email', async (req: Request, res: Response) => {
 });
 
 // POST /api/requests/:id/send-hr — employee sends HR email after reviewing draft
-router.post('/:id/send-hr', async (req: Request, res: Response) => {
+router.post('/:id/send-hr', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const request = await HolidayRequest.findById(req.params.id).populate('userId');
     if (!request) return res.status(404).json({ error: 'Request not found' });

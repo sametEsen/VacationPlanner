@@ -5,6 +5,7 @@ import {
   addCompanyHoliday,
   removeCompanyHoliday,
 } from '../services/holiday.service';
+import { requireAuth, requireRoles } from '../middleware/auth.middleware';
 
 const router = Router();
 const NAGER_API = 'https://date.nager.at/api/v3/PublicHolidays';
@@ -21,7 +22,7 @@ router.get('/public/:year', async (req: Request, res: Response) => {
 });
 
 // GET /api/holidays/company/:year — company holidays
-router.get('/company/:year', async (req: Request, res: Response) => {
+router.get('/company/:year', requireAuth, async (req: Request, res: Response) => {
   try {
     const year = Number(req.params.year);
     const holidays = await getCompanyHolidayList(year);
@@ -32,7 +33,7 @@ router.get('/company/:year', async (req: Request, res: Response) => {
 });
 
 // POST /api/holidays/company — add a company holiday
-router.post('/company', async (req: Request, res: Response) => {
+router.post('/company', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     const { name, date } = req.body;
     if (!name || !date) {
@@ -46,7 +47,7 @@ router.post('/company', async (req: Request, res: Response) => {
 });
 
 // DELETE /api/holidays/company/:id — remove a company holiday
-router.delete('/company/:id', async (req: Request, res: Response) => {
+router.delete('/company/:id', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
   try {
     await removeCompanyHoliday(req.params.id);
     res.json({ success: true });

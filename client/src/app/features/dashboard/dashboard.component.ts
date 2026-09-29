@@ -220,7 +220,7 @@ export class DashboardComponent implements OnInit {
         this.requests.set([]);
         return;
       }
-      this.loadData(user.id);
+      this.loadData();
     });
   }
 
@@ -228,8 +228,8 @@ export class DashboardComponent implements OnInit {
     // Data loading is handled reactively via signal effect in constructor.
   }
 
-  private loadData(userId: string): void {
-    this.api.getUserBalance(userId).subscribe((b) => this.balance.set(b));
-    this.api.getUserRequests(userId).subscribe((reqs) => this.requests.set(reqs.slice(0, 5)));
+  private loadData(): void {
+    this.api.getMyBalance().subscribe((b) => this.balance.set(b));
+    this.api.getMyRequests().subscribe((reqs) => this.requests.set(reqs.slice(0, 5)));
   }
 }

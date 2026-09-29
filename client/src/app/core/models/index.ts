@@ -4,6 +4,7 @@ export interface User {
   email: string;
   role: 'employee' | 'manager' | 'hr';
   totalHolidayDays: number;
+  mustChangePassword?: boolean;
 }
 
 export interface UserBalance {

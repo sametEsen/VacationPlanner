@@ -80,6 +80,7 @@ mat-sidenav-content { min-width: 0; }
 
 .toolbar-spacer { flex: 1 1 auto; }
 .mobile-brand { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+.logout-error { position: fixed; z-index: 20; top: 58px; right: 16px; margin: 8px; padding: 10px 14px; color: #ffd5cc; background: #552d2a; border-radius: 6px; }
 
 // ─── Main Content ─────────────────────────────────────────────────────────
 .main-content {

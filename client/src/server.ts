@@ -6,11 +6,21 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+const apiProxyTarget = process.env['API_PROXY_TARGET'] || 'http://127.0.0.1:3000';
+
+if (process.env['NODE_ENV'] === 'production') app.set('trust proxy', 1);
+app.use('/api', createProxyMiddleware({
+  target: apiProxyTarget,
+  changeOrigin: true,
+  xfwd: true,
+  pathRewrite: (path) => `/api${path}`,
+}));
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -48,10 +58,10 @@ app.use((req, res, next) => {
 });
 
 /**
- * Start the server if this module is the main entry point, or it is ran via PM2.
+ * Start the server if this module is the main entry point.
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
  */
-if (isMainModule(import.meta.url) || process.env['pm_id']) {
+if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, (error) => {
     if (error) {
