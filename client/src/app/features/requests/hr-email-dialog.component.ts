@@ -28,7 +28,7 @@ import { HREmailDraft } from '../../core/models';
     <mat-dialog-content>
       <p class="info">
         <mat-icon class="info-icon">info</mat-icon>
-        Copy the body text below, then click <strong>Open Gmail</strong>. Your signature will appear automatically — paste the body above it.
+        Copy the body text below, then click <strong>Open Outlook</strong>. If Outlook adds your signature, paste the body above it.
       </p>
       <mat-form-field appearance="outline" class="field">
         <mat-label>To</mat-label>
@@ -53,7 +53,7 @@ import { HREmailDraft } from '../../core/models';
     <mat-dialog-actions align="end">
       <button mat-button (click)="cancel()">Cancel</button>
       <button mat-raised-button color="primary" (click)="send()">
-        <mat-icon>open_in_new</mat-icon> Open Gmail
+        <mat-icon>open_in_new</mat-icon> Open Outlook
       </button>
     </mat-dialog-actions>
   `,
@@ -97,12 +97,10 @@ export class HREmailDialogComponent {
   }
 
   send(): void {
-    const url = new URL('https://mail.google.com/mail/');
-    url.searchParams.set('view', 'cm');
-    url.searchParams.set('fs', '1');
+    const url = new URL('https://outlook.office.com/mail/deeplink/compose');
     url.searchParams.set('to', this.draft.to);
-    url.searchParams.set('su', this.draft.subject);
-    // Body intentionally omitted so Gmail auto-injects the user's saved signature
+    url.searchParams.set('subject', this.draft.subject);
+    // Body intentionally omitted so Outlook can add the user's configured signature.
     window.open(url.toString(), '_blank');
     this.dialogRef.close(true);
   }

@@ -103,6 +103,11 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                         <button mat-stroked-button color="warn" (click)="deleteRequest(req)">
                           <mat-icon>delete</mat-icon> Delete
                         </button>
+                        @if (req.status === 'approved') {
+                          <button mat-stroked-button color="primary" (click)="openHREmail(req)">
+                            <mat-icon>email</mat-icon> Notify HR
+                          </button>
+                        }
                       </div>
                     } @else {
                       <div class="actions desktop-actions">
@@ -126,6 +131,9 @@ import { HREmailDialogComponent } from './hr-email-dialog.component';
                             <button mat-menu-item (click)="startEdit(req)"><mat-icon>edit</mat-icon> Edit</button>
                           }
                           <button mat-menu-item (click)="deleteRequest(req)"><mat-icon>delete</mat-icon> Delete</button>
+                          @if (req.status === 'approved') {
+                            <button mat-menu-item (click)="openHREmail(req)"><mat-icon>email</mat-icon> Notify HR</button>
+                          }
                         }
                       </mat-menu>
                     </div>
@@ -384,7 +392,7 @@ export class RequestsComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((confirmed: boolean) => {
           if (confirmed) {
-            this.snackBar.open('Gmail opened — review and send to HR.', 'OK', { duration: 4000 });
+            this.snackBar.open('Outlook opened — review and send to HR.', 'OK', { duration: 4000 });
           }
         });
       },

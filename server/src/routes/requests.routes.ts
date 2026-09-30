@@ -287,9 +287,13 @@ router.delete('/:id', async (req: Request, res: Response) => {
 });
 
 // GET /api/requests/:id/hr-email — get pre-composed HR email draft
-router.get('/:id/hr-email', requireRoles('manager', 'hr'), async (req: Request, res: Response) => {
+router.get('/:id/hr-email', async (req: Request, res: Response) => {
   try {
-    const request = await HolidayRequest.findById(req.params.id).populate('userId');
+    const canViewAllRequests = req.authUser!.role === 'manager' || req.authUser!.role === 'hr';
+    const requestFilter = canViewAllRequests
+      ? { _id: req.params.id }
+      : { _id: req.params.id, userId: req.authUser!.id };
+    const request = await HolidayRequest.findOne(requestFilter).populate('userId');
     if (!request) return res.status(404).json({ error: 'Request not found' });
     if (request.status !== 'approved') {
       return res.status(400).json({ error: 'Request must be approved before sending HR email' });
